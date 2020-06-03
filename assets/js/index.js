@@ -1,5 +1,5 @@
 'use strict';
-import Carousel from './model';
+import Carousel from './model/index.js';
 
 const CAROUSEL_ID = 'CAROUSEL_ID';
 
@@ -134,8 +134,8 @@ class CarouselController {
     };
 
     goPrev = () => {
-
-    };
+        
+    }; 
 
     render () {
 
@@ -178,7 +178,6 @@ carouselController.onstart = () => {
 carouselController.onload = () => {
     reRenderCarousel();
 };
-
 carouselController.onerror = () => {
     reRenderCarousel();
 };

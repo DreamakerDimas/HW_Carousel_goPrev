@@ -1,4 +1,5 @@
 @import "reset.css";
+
 .carouselWrapper{
     display: flex;
     justify-content: center;
