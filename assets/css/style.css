@@ -1,0 +1,52 @@
+@import "reset.css";
+.carouselWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px auto;
+}
+.slidesContainer{
+    height: 300px;
+    width: 800px;
+    position: relative;
+}
+.button{    cursor: pointer;
+}
+.button:active > img{
+    transform: scale(0.9);
+}
+.slide{
+    display: none;
+    position: absolute;
+    height: 300px;
+    width: 600px;
+    box-shadow: 0px 0px 19px 6px rgba(0,0,0,0.75);
+    transition-property: all;
+    transition-duration: 0.5s;
+    z-index: 10;
+}
+.slide > img {
+    width: inherit;
+    height: inherit;
+    object-fit: cover;
+}
+.prevSlide{
+    display: block;
+    right: 100%;
+    top: 50%;
+    transform: translateX(100%) translateY(-50%) scale(0.75);
+}
+.currentSlide{
+    display: block;
+    top: 0;
+    right: 50%;
+    z-index: 11;
+    transform: translate(50%,0) scale(1);
+}
+.nextSlide{
+    display: block;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%) scale(0.75);
+}
+
