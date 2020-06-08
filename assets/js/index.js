@@ -66,7 +66,7 @@ class CarouselController {
         const slideElem = document.createElement('div');
         slideElem.setAttribute('id', index);
         const image = new Image();
-        image.src = src;
+        image.setAttribute('data',src);
         slideElem.appendChild(image);
         slideElem.classList.add('slide');
         switch (index) {
@@ -80,6 +80,7 @@ class CarouselController {
                 slideElem.classList.add('nextSlide');
                 break;
         }
+        imagesElements.push(slideElem);
         return slideElem;
     }
 
@@ -131,6 +132,7 @@ class CarouselController {
         nextSlide.classList.replace('nextSlide', 'currentSlide');
         newNext.classList.add('nextSlide');
         this._carousel.goNext();
+        updateObserverElements();
     };
 
     goPrev = () => {
@@ -150,6 +152,7 @@ class CarouselController {
         currentSlide.classList.replace('currentSlide','nextSlide');
         nextSlide.classList.remove('nextSlide');
         this._carousel.goPrev();
+        updateObserverElements();
     }; 
 
     render () {
@@ -183,6 +186,14 @@ async function fetchJson (url, options) {
 
 const carouselController = new CarouselController('./images.json');
 
+let imagesElements = [];
+const options = {
+    root: document.querySelector('.slidesContainer'),
+    threshold: 0.1,
+};
+const observer = new IntersectionObserver(handleImg, options);
+
+
 const newCarousel = carouselController.render();
 newCarousel.setAttribute('id', CAROUSEL_ID);
 document.body.appendChild(newCarousel);
@@ -201,4 +212,25 @@ function reRenderCarousel () {
     const newCarousel = carouselController.render();
     newCarousel.setAttribute('id', CAROUSEL_ID);
     document.body.replaceChild(newCarousel, document.getElementById(CAROUSEL_ID));
+
+    updateObserverElements();
 }
+
+function updateObserverElements() {
+    imagesElements.forEach( divImg => {
+        observer.observe(divImg);
+    });
+}
+
+function handleImg( myImages, observer ){
+    myImages.forEach( myImgDiv => {
+        if( myImgDiv.intersectionRatio > 0) {
+            console.log( myImgDiv );
+            myImgDiv.target.firstChild.setAttribute('src',myImgDiv.target.firstChild.getAttribute('data'));
+            //myImgDiv.target.firstChild.removeAttribute('data');
+            observer.unobserve( myImgDiv.target );
+        }
+    });
+}
+
+
